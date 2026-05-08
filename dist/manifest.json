@@ -1,0 +1,18 @@
+{
+  "name": "AI Compiler",
+  "short_name": "AICompiler",
+  "description": "AI智能代码编译器 - 集成AI代码补全、项目打包、签名管理功能",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
