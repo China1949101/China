@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Compiler - 下载 APK</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+            color: white;
+            font-weight: bold;
+        }
+        h1 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+        .version {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        .info {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #94a3b8; }
+        .info-value { color: #e2e8f0; font-weight: 500; }
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            text-align: left;
+        }
+        .instructions h3 {
+            color: #e2e8f0;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .instructions ol {
+            color: #94a3b8;
+            padding-left: 20px;
+            line-height: 2;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            color: #fcd34d;
+            font-size: 14px;
+        }
+        .file-size {
+            color: #06b6d4;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">AI</div>
+        <h1>AI Compiler</h1>
+        <p class="subtitle">智能代码编译器</p>
+        <div class="version">版本 1.0.0</div>
+
+        <div class="info">
+            <div class="info-row">
+                <span class="info-label">应用名称</span>
+                <span class="info-value">AI Compiler</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">包名</span>
+                <span class="info-value">com.aicompiler.app</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">版本</span>
+                <span class="info-value">1.0.0 (1)</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">大小</span>
+                <span class="info-value file-size">约 25 MB</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">平台</span>
+                <span class="info-value">Android</span>
+            </div>
+        </div>
+
+        <a href="/AI-Compiler-v1.0.0-debug.apk" class="download-btn" download>
+            📥 下载 APK 安装包
+        </a>
+
+        <div class="instructions">
+            <h3>📱 安装步骤</h3>
+            <ol>
+                <li>点击上方按钮下载 APK 文件</li>
+                <li>找到下载的 APK 文件（通常在 Downloads 文件夹）</li>
+                <li>点击 APK 文件开始安装</li>
+                <li>如果提示"禁止安装未知应用"，请在设置中允许</li>
+                <li>安装完成后打开 AI Compiler 即可使用</li>
+            </ol>
+        </div>
+
+        <div class="note">
+            ⚠️ 首次安装需要在手机设置中开启"允许安装未知来源应用"
+        </div>
+    </div>
+</body>
+</html>

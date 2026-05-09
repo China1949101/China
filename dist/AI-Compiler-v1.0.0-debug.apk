@@ -1,0 +1,22 @@
+PK▒▒▒▒▒▒☺       AndroidManifest.xmlPKGZIP-Android-Archive (Simulated APK)
+AI Compiler v1.0.0
+包名: com.aicompiler.app
+版本: 1.0.0 (1)
+构建类型: debug
+
+这是一个模拟的 APK 文件。
+用于演示 AI Compiler 应用的打包和下载功能。
+
+在真实环境中，这个文件会包含:
+- classes.dex (编译的 Java/Kotlin 字节码)
+- resources.arsc (编译的资源表)
+- AndroidManifest.xml (应用清单)
+- META-INF/CERT.RSA (签名信息)
+- 所有的应用资源
+
+要创建真实的 APK，您需要:
+1. 安装 Android Studio 或命令行工具
+2. 创建 Android 项目
+3. 编译并签名 APK
+
+AI Compiler Team
