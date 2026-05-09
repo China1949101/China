@@ -24,6 +24,10 @@ export interface SigningKey {
   path: string;
   createdAt: Date;
   validUntil: Date;
+  keySize: number;
+  algorithm: string;
+  fingerprint?: string;
+  subject?: string;
 }
 
 export interface BuildConfig {

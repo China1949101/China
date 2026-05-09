@@ -1,5 +1,6 @@
-import { useAppStore } from './store/appStore';
+import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { useAppStore } from './store/appStore';
 import Sidebar from './components/Sidebar';
 import TabBar from './components/TabBar';
 import Editor from './components/Editor';
@@ -7,6 +8,7 @@ import KeyManager from './components/KeyManager';
 import BuildPanel from './components/BuildPanel';
 import SettingsPanel from './components/SettingsPanel';
 import Header from './components/Header';
+import MobileNavigation from './components/MobileNavigation';
 import { FiCode, FiKey, FiPackage, FiSettings } from 'react-icons/fi';
 
 function App() {
@@ -21,6 +23,38 @@ function App() {
     setActiveFile,
     updateFileContent
   } = useAppStore();
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
+  const initializeApp = async () => {
+    try {
+      const { StatusBar } = await import('@capacitor/status-bar');
+      await StatusBar.setStyle({ style: 'DARK' as any });
+      await StatusBar.setBackgroundColor({ color: '#0f172a' });
+    } catch (error) {
+      console.log('Capacitor not available');
+    }
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    setIsMobile(width < 768 || width === height);
+
+    const handleResize = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      setIsMobile(w < 768 || w === h);
+    };
+
+    window.addEventListener('resize', handleResize);
+    setIsInitialized(true);
+
+    return () => window.removeEventListener('resize', handleResize);
+  };
 
   const renderMainContent = () => {
     switch (activeTab) {
@@ -40,12 +74,13 @@ function App() {
                 <Editor
                   file={activeFile}
                   onChange={(content) => updateFileContent(activeFile.id, content)}
+                  isMobile={isMobile}
                 />
               ) : (
                 <div className="h-full flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <FiCode size={64} className="mx-auto mb-4 opacity-20" />
-                    <p className="text-xl">选择一个文件开始编辑</p>
+                  <div className="text-center px-4">
+                    <FiCode size={isMobile ? 48 : 64} className="mx-auto mb-4 opacity-20" />
+                    <p className={`${isMobile ? 'text-base' : 'text-xl'}`}>选择一个文件开始编辑</p>
                     <p className="text-sm mt-2 opacity-60">或创建新文件</p>
                   </div>
                 </div>
@@ -54,15 +89,23 @@ function App() {
           </div>
         );
       case 'keys':
-        return <KeyManager />;
+        return <KeyManager isMobile={isMobile} />;
       case 'build':
-        return <BuildPanel />;
+        return <BuildPanel isMobile={isMobile} />;
       case 'settings':
-        return <SettingsPanel />;
+        return <SettingsPanel isMobile={isMobile} />;
       default:
         return null;
     }
   };
+
+  if (!isInitialized) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center bg-slate-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+      </div>
+    );
+  }
 
   const tabs = [
     { id: 'editor' as const, label: '编辑器', icon: FiCode },
@@ -74,7 +117,7 @@ function App() {
   return (
     <div className="h-screen w-screen flex flex-col bg-slate-900 text-white overflow-hidden">
       <Toaster
-        position="top-right"
+        position={isMobile ? "top-center" : "top-right"}
         toastOptions={{
           style: {
             background: '#1e293b',
@@ -84,36 +127,21 @@ function App() {
         }}
       />
 
-      <Header onToggleSidebar={toggleSidebar} />
+      <Header onToggleSidebar={toggleSidebar} isMobile={isMobile} />
 
       <div className="flex-1 flex overflow-hidden">
-        <div className="w-16 bg-slate-800 border-r border-slate-700 flex flex-col items-center py-4 space-y-2">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`p-3 rounded-lg transition-all ${
-                activeTab === tab.id
-                  ? 'bg-primary-600 text-white'
-                  : 'text-gray-400 hover:bg-slate-700 hover:text-white'
-              }`}
-              title={tab.label}
-            >
-              <tab.icon size={24} />
-            </button>
-          ))}
-        </div>
-
-        {sidebarOpen && (
+        {!isMobile && sidebarOpen && (
           <div className="w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto scrollbar-thin">
             <Sidebar />
           </div>
         )}
 
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden flex flex-col">
           {renderMainContent()}
         </div>
       </div>
+
+      {isMobile && <MobileNavigation tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />}
     </div>
   );
 }
