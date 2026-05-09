@@ -28,18 +28,6 @@ function App() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    initializeApp();
-  }, []);
-
-  const initializeApp = async () => {
-    try {
-      const { StatusBar } = await import('@capacitor/status-bar');
-      await StatusBar.setStyle({ style: 'DARK' as any });
-      await StatusBar.setBackgroundColor({ color: '#0f172a' });
-    } catch (error) {
-      console.log('Capacitor not available');
-    }
-
     const width = window.innerWidth;
     const height = window.innerHeight;
     setIsMobile(width < 768 || width === height);
@@ -54,7 +42,7 @@ function App() {
     setIsInitialized(true);
 
     return () => window.removeEventListener('resize', handleResize);
-  };
+  }, []);
 
   const renderMainContent = () => {
     switch (activeTab) {
