@@ -12,6 +12,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.3",
+    "@capacitor/cli": "^8.3.3",
+    "@capacitor/core": "^8.3.3",
     "@monaco-editor/react": "^4.6.0",
     "express": "^4.22.1",
     "monaco-editor": "^0.45.0",
