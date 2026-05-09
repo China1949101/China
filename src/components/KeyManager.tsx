@@ -50,6 +50,61 @@ const KeyManager: React.FC<KeyManagerProps> = ({ isMobile = false }) => {
     algorithm: 'RSA'
   });
 
+  const generateFingerprint = (): string => {
+    const chars = 'ABCDEF0123456789';
+    let fp = '';
+    for (let i = 0; i < 40; i++) {
+      if (i > 0 && i % 2 === 0) fp += ':';
+      fp += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return fp;
+  };
+
+  const downloadFile = (content: string, filename: string, type: string = 'text/plain') => {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const generateJKSFile = (key: SigningKey): string => {
+    return `AI Compiler - Java KeyStore Simulation
+=====================================
+Alias: ${key.alias}
+Algorithm: ${key.algorithm}
+Key Size: ${key.keySize} bits
+Created: ${key.createdAt.toISOString()}
+Valid Until: ${key.validUntil.toISOString()}
+Subject: ${key.subject}
+Fingerprint: ${key.fingerprint}
+=====================================
+JKS File Format (Simulated)
+
+This is a simulation of a Java KeyStore. For a real JKS, you would
+need to use Java's keytool utility.
+
+KeyStore Version: 2
+Entry Type: PrivateKeyEntry
+Creation Date: ${key.createdAt.toLocaleString()}
+Entry Alias: ${key.alias}
+Certificate Chain Length: 1
+
+Certificate[1]:
+  Owner: ${key.subject}
+  Issuer: ${key.subject}
+  Serial Number: ${Math.random().toString(16).substring(2)}
+  Valid from: ${key.createdAt.toLocaleString()} to: ${key.validUntil.toLocaleString()}
+  Certificate Fingerprint (SHA1): ${key.fingerprint}
+  Signature Algorithm: SHA1with${key.algorithm}
+  Version: 3
+`;
+  };
+
   const handleGenerateKey = () => {
     if (!formData.alias || !formData.storePassword || !formData.keyPassword) {
       toast.error('请填写所有必填字段');
@@ -94,16 +149,6 @@ const KeyManager: React.FC<KeyManagerProps> = ({ isMobile = false }) => {
     });
   };
 
-  const generateFingerprint = (): string => {
-    const chars = 'ABCDEF0123456789';
-    let fp = '';
-    for (let i = 0; i < 40; i++) {
-      if (i > 0 && i % 2 === 0) fp += ':';
-      fp += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return fp;
-  };
-
   const handleDeleteKey = (keyId: string) => {
     if (confirm('⚠️ 警告：删除密钥将无法恢复！\n\n确定要删除此签名密钥吗？此操作不可撤销。')) {
       removeSigningKey(keyId);
@@ -112,6 +157,9 @@ const KeyManager: React.FC<KeyManagerProps> = ({ isMobile = false }) => {
   };
 
   const handleExportKey = (key: SigningKey) => {
+    const jksContent = generateJKSFile(key);
+    downloadFile(jksContent, `${key.alias}-keystore.jks`, 'application/octet-stream');
+
     const keyData = {
       format: 'PKCS12',
       algorithm: key.algorithm,
@@ -121,17 +169,14 @@ const KeyManager: React.FC<KeyManagerProps> = ({ isMobile = false }) => {
       fingerprint: key.fingerprint,
       createdAt: key.createdAt.toISOString(),
       validUntil: key.validUntil.toISOString(),
-      usage: 'APK Signing'
+      usage: 'APK Signing',
+      note: 'This is a simulation. For real Android APK signing, use Java keytool.'
     };
 
-    const blob = new Blob([JSON.stringify(keyData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${key.alias}-keystore-info.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success('密钥配置已导出');
+    const jsonContent = JSON.stringify(keyData, null, 2);
+    downloadFile(jsonContent, `${key.alias}-keystore-info.json`, 'application/json');
+
+    toast.success('密钥文件已下载');
   };
 
   const handleCopyKeyInfo = (key: SigningKey) => {
@@ -247,6 +292,18 @@ const KeyManager: React.FC<KeyManagerProps> = ({ isMobile = false }) => {
                     className="w-full px-4 py-2 bg-slate-700 rounded-lg border border-slate-600 focus:border-primary-500 focus:outline-none text-white"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  签名者信息 (DN)
+                </label>
+                <input
+                  type="text"
+                  value={formData.dname}
+                  onChange={(e) => setFormData({ ...formData, dname: e.target.value })}
+                  className="w-full px-4 py-2 bg-slate-700 rounded-lg border border-slate-600 focus:border-primary-500 focus:outline-none text-white"
+                />
               </div>
 
               <div className="border-t border-slate-700 pt-4 mt-4">
@@ -368,16 +425,16 @@ const KeyManager: React.FC<KeyManagerProps> = ({ isMobile = false }) => {
                       <div className="flex flex-wrap items-center gap-4 mt-3 text-xs text-gray-500">
                         <span className="flex items-center space-x-1">
                           <FiClock size={12} />
-                          <span>创建: {key.createdAt.toLocaleDateString()}</span>
+                          <span>创建: {key.createdAt.toLocaleString()}</span>
                         </span>
                         <span className="flex items-center space-x-1">
                           <FiLock size={12} />
-                          <span>有效期至: {key.validUntil.toLocaleDateString()}</span>
+                          <span>有效期至: {key.validUntil.toLocaleString()}</span>
                         </span>
                       </div>
 
                       {key.fingerprint && (
-                        <div className="mt-3 p-2 bg-slate-700/50 rounded text-xs font-mono text-gray-400">
+                        <div className="mt-3 p-2 bg-slate-700/50 rounded text-xs font-mono text-gray-400 break-all">
                           指纹: {key.fingerprint}
                         </div>
                       )}
