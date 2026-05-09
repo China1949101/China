@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#8b5cf6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AI Compiler">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>AI Compiler - 智能代码编译器</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
+    <link rel="apple-touch-icon" href="/icon.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 48px;
+            font-weight: bold;
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.4);
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .info-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #94a3b8; }
+        .info-value { color: #e2e8f0; font-weight: 500; }
+        .install-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
+        }
+        .open-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 16px 40px;
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+            border: 2px solid rgba(139, 92, 246, 0.5);
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .open-btn:hover {
+            background: rgba(139, 92, 246, 0.3);
+        }
+        .features {
+            margin-top: 40px;
+            text-align: left;
+        }
+        .features h3 {
+            color: #e2e8f0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            color: #94a3b8;
+        }
+        .feature-item span { margin-left: 12px; }
+        .note {
+            margin-top: 30px;
+            padding: 16px;
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            color: #fcd34d;
+            font-size: 14px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">AI</div>
+        <h1>AI Compiler</h1>
+        <p class="subtitle">智能代码编译器</p>
+
+        <div class="info-card">
+            <div class="info-row">
+                <span class="info-label">版本</span>
+                <span class="info-value">1.0.0</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">包名</span>
+                <span class="info-value">com.aicompiler.app</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">平台</span>
+                <span class="info-value">Android / iOS</span>
+            </div>
+        </div>
+
+        <button id="installBtn" class="install-btn hidden">
+            📱 安装到桌面
+        </button>
+
+        <a href="/index.html" class="open-btn">
+            🚀 打开应用
+        </a>
+
+        <div class="features">
+            <h3>✨ 功能特性</h3>
+            <div class="feature-item">📝 <span>AI 代码编译与智能补全</span></div>
+            <div class="feature-item">🤖 <span>智能对话与代码分析</span></div>
+            <div class="feature-item">🔐 <span>签名密钥生成与管理</span></div>
+            <div class="feature-item">📦 <span>APK 应用打包构建</span></div>
+        </div>
+
+        <div class="note">
+            💡 提示：点击右上角菜单，选择"添加到主屏幕"即可安装
+        </div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('installBtn');
+            installBtn.classList.remove('hidden');
+            installBtn.style.display = 'block';
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    alert('应用正在安装...');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            alert('🎉 AI Compiler 已成功安装到您的设备！');
+        });
+
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

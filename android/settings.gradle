@@ -1,5 +1,29 @@
-include ':app'
-include ':capacitor-cordova-android-plugins'
-project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
+pluginManagement {
+    repositories {
+        maven { url 'file:/workspace/local-maven-repo' }
+        google()
+        mavenCentral()
+    }
+}
 
-apply from: 'capacitor.settings.gradle'
+buildscript {
+    repositories {
+        maven { url 'file:/workspace/local-maven-repo' }
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.0'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'file:/workspace/local-maven-repo' }
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "AICompiler"
+include ':app'
