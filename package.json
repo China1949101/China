@@ -1,13 +1,13 @@
 {
   "name": "ai-compiler",
-  "version": "1.0.0",
-  "description": "AI智能代码编译器 - 集成AI代码补全，项目打包，签名管理功能",
+  "version": "2.0.0",
+  "description": "AI智能代码编译器 v2.0 - 集成AI代码生成、项目打包、签名管理、API配置功能",
   "author": "AI Compiler Team",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && node build-native.js",
+    "build": "vite build && node build-native.js",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
